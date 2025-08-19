@@ -58,6 +58,10 @@
 </head>
 <body class="bg-gray-50 text-gray-800">
 
+    <div id="offline-banner" class="hidden bg-yellow-500 text-white text-center p-2 text-sm">
+        ⚠️ Mode hors ligne : Les modifications ne sont pas partagées en temps réel.
+    </div>
+
     <div class="min-h-screen flex flex-col">
         <header class="bg-white shadow-sm sticky top-0 z-40">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -123,29 +127,16 @@
     <script type="module">
         // =================================================================================
         // --- SECTION FIREBASE ---
-        // Importation des modules Firebase et initialisation de l'application.
-        // Les informations de configuration sont injectées par l'environnement d'hébergement.
         // =================================================================================
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, onSnapshot, addDoc, doc, setDoc, deleteDoc, writeBatch } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Ces variables globales sont fournies par l'environnement d'exécution
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'helexia-sinistres-app';
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : { apiKey: "...", authDomain: "...", projectId: "..." };
-        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        
-        // Collection Firestore pour stocker les sinistres
-        const claimsCollectionRef = collection(db, `/artifacts/${appId}/public/data/sinistres`);
+        let db, auth, claimsCollectionRef;
+        let isOnlineMode = false;
 
         // =================================================================================
         // --- SECTION DONNÉES ---
-        // Les données initiales sont définies ci-dessous. Elles sont utilisées pour
-        // peupler la base de données la toute première fois qu'elle est utilisée.
         // =================================================================================
 
         const initialClaimsData = [
@@ -168,7 +159,6 @@
 
         // =================================================================================
         // --- SECTION CONFIGURATION & ÉTAT ---
-        // Références aux éléments de la page et variables pour gérer l'état de l'application.
         // =================================================================================
 
         const claimsTableBody = document.getElementById('claimsTableBody'), searchInput = document.getElementById('searchInput');
@@ -178,7 +168,6 @@
 
         // =================================================================================
         // --- SECTION UTILITAIRES ---
-        // Fonctions pour formater les données (monnaie, dates) et créer des badges.
         // =================================================================================
         
         const formatCurrency = (amount) => (amount === null || amount === undefined || isNaN(amount)) ? 'N/A' : new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(amount);
@@ -201,7 +190,6 @@
 
         // =================================================================================
         // --- SECTION AFFICHAGE ---
-        // Fonction responsable de la génération du HTML pour le tableau des sinistres.
         // =================================================================================
 
         const renderClaimsTable = (data) => {
@@ -222,7 +210,6 @@
 
         // =================================================================================
         // --- SECTION LOGIQUE PRINCIPALE ---
-        // Fonctions pour le filtrage, le tri, et l'ajout de sinistres.
         // =================================================================================
 
         const filterAndRenderClaims = () => {
@@ -259,23 +246,31 @@
         };
 
         const addNewClaim = async () => {
-            const newClaim = {
+             const newClaimData = {
                 projet: "Nouveau Sinistre", spv: "", adresse: "", dateSinistre: new Date().toISOString().split('T')[0],
                 categorie: "", sinistre: "", contrat: "MPV", montantDevis: null, montantFranchise: null,
                 remboursement: null, expert: "", dateExpertise: null, refExpert: "", refAssureur: "",
                 statut: "EN COURS", suivi: "", dateDernierSuivi: null
             };
-            try {
-                const docRef = await addDoc(claimsCollectionRef, newClaim);
-                openClaimModal(docRef.id, true);
-            } catch (error) {
-                console.error("Erreur lors de l'ajout du sinistre: ", error);
+
+            if (isOnlineMode) {
+                try {
+                    const docRef = await addDoc(claimsCollectionRef, newClaimData);
+                    openClaimModal(docRef.id, true);
+                } catch (error) {
+                    console.error("Erreur (Firebase) lors de l'ajout du sinistre: ", error);
+                }
+            } else {
+                const newId = `local_${new Date().getTime()}`;
+                claimsData.unshift({ id: newId, ...newClaimData });
+                localStorage.setItem('claimsDataHelexia', JSON.stringify(claimsData));
+                filterAndRenderClaims();
+                openClaimModal(newId, true);
             }
         };
 
         // =================================================================================
         // --- SECTION MODALES ---
-        // Logique pour ouvrir, fermer, afficher et éditer les détails d'un sinistre.
         // =================================================================================
 
         const openClaimModal = (claimId, isEditMode = false) => {
@@ -349,7 +344,6 @@
         const saveClaimChanges = async (claimId) => {
             const form = document.getElementById('editClaimForm');
             const formData = new FormData(form);
-            const claimDocRef = doc(db, `/artifacts/${appId}/public/data/sinistres`, claimId);
             
             const updatedData = {};
             for (const key of formData.keys()) {
@@ -360,27 +354,44 @@
                     updatedData[key] = value;
                 }
             }
-            
-            try {
-                await setDoc(claimDocRef, updatedData, { merge: true });
-                closeModal(claimModal);
-            } catch (error) {
-                console.error("Erreur de sauvegarde: ", error);
+
+            if (isOnlineMode) {
+                const claimDocRef = doc(db, `/artifacts/${appId}/public/data/sinistres`, claimId);
+                try {
+                    await setDoc(claimDocRef, updatedData, { merge: true });
+                } catch (error) {
+                    console.error("Erreur de sauvegarde (Firebase): ", error);
+                }
+            } else {
+                const claimIndex = claimsData.findIndex(c => c.id === claimId);
+                if (claimIndex !== -1) {
+                    claimsData[claimIndex] = { ...claimsData[claimIndex], ...updatedData };
+                    localStorage.setItem('claimsDataHelexia', JSON.stringify(claimsData));
+                    filterAndRenderClaims();
+                }
             }
+            closeModal(claimModal);
         };
 
         const deleteClaim = async (claimId) => {
-            // Utilisation d'une simple confirmation via la console, car alert/confirm ne sont pas fiables.
             console.log(`Pour confirmer la suppression, tapez "confirmDelete()" dans la console.`);
             window.confirmDelete = async () => {
-                try {
-                    await deleteDoc(doc(db, `/artifacts/${appId}/public/data/sinistres`, claimId));
+                if (isOnlineMode) {
+                     try {
+                        await deleteDoc(doc(db, `/artifacts/${appId}/public/data/sinistres`, claimId));
+                        closeModal(claimModal);
+                        console.log("Sinistre supprimé (Firebase).");
+                    } catch (error) {
+                        console.error("Erreur de suppression (Firebase): ", error);
+                    }
+                } else {
+                    claimsData = claimsData.filter(c => c.id !== claimId);
+                    localStorage.setItem('claimsDataHelexia', JSON.stringify(claimsData));
+                    filterAndRenderClaims();
                     closeModal(claimModal);
-                    console.log("Sinistre supprimé.");
-                } catch (error) {
-                    console.error("Erreur de suppression: ", error);
+                    console.log("Sinistre supprimé (Local).");
                 }
-                delete window.confirmDelete; // Nettoyage
+                delete window.confirmDelete;
             };
         };
 
@@ -388,8 +399,15 @@
 
         // =================================================================================
         // --- SECTION INITIALISATION & AUTHENTIFICATION ---
-        // Se connecte à Firebase et met en place l'écouteur de données en temps réel.
         // =================================================================================
+
+        const initializeOfflineMode = () => {
+            console.log("Démarrage en mode hors ligne.");
+            isOnlineMode = false;
+            document.getElementById('offline-banner').classList.remove('hidden');
+            claimsData = JSON.parse(localStorage.getItem('claimsDataHelexia')) || initialClaimsData.map((d, i) => ({...d, id: `local_${i}`}));
+            filterAndRenderClaims();
+        };
 
         const setupFirestoreListener = () => {
              onSnapshot(claimsCollectionRef, async (snapshot) => {
@@ -406,35 +424,43 @@
                     filterAndRenderClaims();
                 }
             }, (error) => {
-                console.error("Erreur de lecture des données: ", error);
-                claimsTableBody.innerHTML = `<tr><td colspan="6" class="text-center py-10 text-red-500">Erreur de connexion à la base de données.</td></tr>`;
+                console.error("Erreur de lecture des données, passage en mode hors ligne: ", error);
+                initializeOfflineMode();
             });
         };
 
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
             
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    // User is signed in. It's now safe to listen to Firestore.
-                    setupFirestoreListener();
-                } 
-            });
+            if (!firebaseConfig) {
+                initializeOfflineMode();
+            } else {
+                auth = getAuth(initializeApp(firebaseConfig));
+                db = getFirestore(auth.app);
+                claimsCollectionRef = collection(db, `/artifacts/${appId}/public/data/sinistres`);
 
-            const authenticateUser = async () => {
-                try {
-                    if (initialAuthToken) {
-                        await signInWithCustomToken(auth, initialAuthToken);
-                    } else {
-                        await signInAnonymously(auth);
+                onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                        console.log("Authentification réussie. Mise en place de l'écouteur Firestore.");
+                        isOnlineMode = true;
+                        setupFirestoreListener();
                     }
-                } catch (error) {
-                    console.error("Erreur d'authentification Firebase: ", error);
-                    claimsTableBody.innerHTML = `<tr><td colspan="6" class="text-center py-10 text-red-500">Erreur d'authentification. L'application ne peut pas démarrer.</td></tr>`;
-                }
-            };
+                });
 
-            authenticateUser();
+                const authenticate = async () => {
+                    try {
+                        if (initialAuthToken) {
+                            await signInWithCustomToken(auth, initialAuthToken);
+                        } else {
+                            await signInAnonymously(auth);
+                        }
+                    } catch (error) {
+                        console.error("L'authentification Firebase a échoué. Passage en mode hors ligne.", error);
+                        initializeOfflineMode();
+                    }
+                };
+                authenticate();
+            }
             
             document.getElementById('addClaimBtn').onclick = addNewClaim;
             searchInput.addEventListener('keyup', filterAndRenderClaims);
