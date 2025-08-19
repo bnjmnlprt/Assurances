@@ -99,7 +99,7 @@
                                 </tr>
                             </thead>
                             <tbody id="claimsTableBody" class="bg-white divide-y divide-gray-200">
-                                <tr><td colspan="6" class="text-center py-10"><div class="spinner mx-auto"></div><p class="mt-2 text-sm text-gray-500">Chargement des données...</p></td></tr>
+                                <tr><td colspan="6" class="text-center py-10"><div class="spinner mx-auto"></div><p class="mt-2 text-sm text-gray-500">Connexion en cours...</p></td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -391,44 +391,50 @@
         // Se connecte à Firebase et met en place l'écouteur de données en temps réel.
         // =================================================================================
 
-        const initializeAppAndData = async () => {
-            try {
-                if (initialAuthToken) {
-                    await signInWithCustomToken(auth, initialAuthToken);
+        const setupFirestoreListener = () => {
+             onSnapshot(claimsCollectionRef, async (snapshot) => {
+                if (snapshot.empty && initialClaimsData.length > 0) {
+                    console.log("Base de données vide. Initialisation avec les données par défaut.");
+                    const batch = writeBatch(db);
+                    initialClaimsData.forEach(claimData => {
+                        const newDocRef = doc(claimsCollectionRef);
+                        batch.set(newDocRef, claimData);
+                    });
+                    await batch.commit();
                 } else {
-                    await signInAnonymously(auth);
+                    claimsData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    filterAndRenderClaims();
                 }
-
-                // Écouteur en temps réel
-                onSnapshot(claimsCollectionRef, async (snapshot) => {
-                    if (snapshot.empty) {
-                        console.log("Base de données vide. Initialisation avec les données par défaut.");
-                        const batch = writeBatch(db);
-                        initialClaimsData.forEach(claim => {
-                            const { id, ...claimData } = claim; // Firestore generates its own ID
-                            const newDocRef = doc(claimsCollectionRef);
-                            batch.set(newDocRef, claimData);
-                        });
-                        await batch.commit();
-                        // L'écouteur sera automatiquement redéclenché avec les nouvelles données
-                    } else {
-                        claimsData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                        filterAndRenderClaims();
-                    }
-                }, (error) => {
-                    console.error("Erreur de lecture des données: ", error);
-                    claimsTableBody.innerHTML = `<tr><td colspan="6" class="text-center py-10 text-red-500">Erreur de connexion à la base de données.</td></tr>`;
-                });
-
-            } catch (error) {
-                console.error("Erreur d'authentification Firebase: ", error);
-                claimsTableBody.innerHTML = `<tr><td colspan="6" class="text-center py-10 text-red-500">Erreur d'authentification. L'application ne peut pas démarrer.</td></tr>`;
-            }
+            }, (error) => {
+                console.error("Erreur de lecture des données: ", error);
+                claimsTableBody.innerHTML = `<tr><td colspan="6" class="text-center py-10 text-red-500">Erreur de connexion à la base de données.</td></tr>`;
+            });
         };
 
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
-            initializeAppAndData();
+            
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    // User is signed in. It's now safe to listen to Firestore.
+                    setupFirestoreListener();
+                } 
+            });
+
+            const authenticateUser = async () => {
+                try {
+                    if (initialAuthToken) {
+                        await signInWithCustomToken(auth, initialAuthToken);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+                } catch (error) {
+                    console.error("Erreur d'authentification Firebase: ", error);
+                    claimsTableBody.innerHTML = `<tr><td colspan="6" class="text-center py-10 text-red-500">Erreur d'authentification. L'application ne peut pas démarrer.</td></tr>`;
+                }
+            };
+
+            authenticateUser();
             
             document.getElementById('addClaimBtn').onclick = addNewClaim;
             searchInput.addEventListener('keyup', filterAndRenderClaims);
