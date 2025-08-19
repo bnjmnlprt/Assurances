@@ -37,14 +37,6 @@
         .nav-link.active { color: #4338CA; border-bottom-color: #4F46E5; }
         [data-page] { display: none; }
         [data-page].active { display: block; }
-        .year-btn {
-            padding: 6px 12px; border-radius: 6px; font-weight: 500;
-            background-color: #F3F4F6; color: #4B5563;
-            border: 1px solid #E5E7EB;
-        }
-        .year-btn.active {
-            background-color: #4F46E5; color: white; border-color: #4F46E5;
-        }
          .status-badge {
             padding: 0.25em 0.6em;
             font-size: 0.75rem;
@@ -68,23 +60,14 @@
                 <div class="flex justify-between items-center h-16">
                     <div class="flex items-center space-x-4">
                         <img src="https://www.helexia.green/wp-content/uploads/2023/12/helexia-logo-header.svg" alt="Helexia Logo" class="h-8 w-auto">
-                        <h1 class="text-xl font-semibold text-gray-900">Gestion Assurances</h1>
+                        <h1 class="text-xl font-semibold text-gray-900">Gestion des Sinistres</h1>
                     </div>
                 </div>
             </div>
-            <nav class="bg-white border-t border-gray-200">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="flex space-x-2">
-                        <a href="#" class="nav-link active" data-target="sinistres">Suivi des Sinistres</a>
-                        <a href="#" class="nav-link" data-target="contracts">Contrats</a>
-                    </div>
-                </div>
-            </nav>
         </header>
 
         <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
             
-            <!-- PAGE: SUIVI DES SINISTRES -->
             <div data-page="sinistres" class="active">
                 <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-4 gap-4">
                     <div class="flex items-center gap-4">
@@ -106,44 +89,12 @@
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" data-sort="projet">Projet</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" data-sort="spv">SPV</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" data-sort="dateSinistre">Date Sinistre</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" data-sort="dateDernierSuivi">Dernier Suivi</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" data-sort="statut">Statut</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" data-sort="montantDevis">Montant Devis</th>
                                 </tr>
                             </thead>
                             <tbody id="claimsTableBody" class="bg-white divide-y divide-gray-200"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- PAGE: CONTRATS -->
-            <div data-page="contracts">
-                <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-4 gap-4">
-                    <div class="flex items-center gap-4">
-                        <h2 class="text-2xl font-bold tracking-tight text-gray-900">Contrats d'Assurance</h2>
-                        <div class="flex items-center space-x-2">
-                             <button class="year-btn active" data-year="2024">2024</button>
-                             <button class="year-btn" data-year="2025">2025</button>
-                             <button class="year-btn" data-year="2026">2026</button>
-                        </div>
-                    </div>
-                    <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200 text-center">
-                        <p class="text-sm font-medium text-gray-500">Coût Annuel Total des Primes</p>
-                        <p id="total-premium" class="text-2xl font-bold text-indigo-600">0,00 €</p>
-                    </div>
-                </div>
-                 <div class="bg-white shadow-sm rounded-lg border border-gray-200 overflow-hidden">
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
-                                <tr>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nom de l'assurance</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Assureur</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">N° Police</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Prime Annuelle TTC</th>
-                                </tr>
-                            </thead>
-                            <tbody id="contractsTableBody" class="bg-white divide-y divide-gray-200"></tbody>
                         </table>
                     </div>
                 </div>
@@ -163,20 +114,6 @@
         </div>
     </div>
 
-    <!-- MODALE CONTRAT -->
-    <div id="contractModal" class="modal-backdrop">
-        <div class="modal-content bg-white rounded-lg shadow-xl w-full max-w-4xl m-4 max-h-[90vh] flex flex-col">
-            <div class="flex justify-between items-center p-4 border-b">
-                <h3 class="text-lg font-semibold" id="contractModalTitle"></h3>
-                <button class="close-modal-btn text-gray-400 hover:text-gray-600"><i data-lucide="x" class="h-6 w-6"></i></button>
-            </div>
-            <div id="contractModalBody" class="p-6 overflow-y-auto"></div>
-            <div class="p-4 bg-gray-50 border-t flex justify-end">
-                <button class="close-modal-btn px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 text-sm">Fermer</button>
-            </div>
-        </div>
-    </div>
-
     <script>
         // =================================================================================
         // --- SECTION DONNÉES ---
@@ -187,50 +124,34 @@
         // =================================================================================
 
         const initialClaimsData = [
-            { id: 1, projet: "DI 143", spv: "HELEXIA SOLAR 8", adresse: "Lieu-dit Champ de Loraud\n16140 Lupsault", dateSinistre: "2022-04-08", categorie: "Intempéries", sinistre: "1er \"sinistre\" : litige lié à la structure : Côté juridique - expertise judiciaire\n2ème sinistre : détachement d'une partie métallique", contrat: "MPV", montantDevis: null, montantFranchise: null, remboursement: null, expert: "VERING", dateExpertise: null, refExpert: "22VTB2892", refAssureur: "", statut: "EN COURS", suivi: "Attente rapport des experts (1er et 2ème sinistre)\nL'expert Vering attend un devis pour les réparation - en attendant : Standby de son côté\n21.10.2022 : Retour de l'expert (M. Buchet Vering)\nVent < 110km/h (minimum pour qualifier en tempête) => La responsabilité pour la remise en état du bardage et de la faitière revient au constructeur (décennale)\n09.11.2022 : En attente du chiffrage Prosolia" },
-            { id: 2, projet: "DI 300 DEBARRE", spv: "HELEXIA SOLAR 12", adresse: "Pèterenard\n86210 Archigny", dateSinistre: "2022-08-02", categorie: "Incendie", sinistre: "Incendie d'un boitier de jonction", contrat: "MPV", montantDevis: 1391.8, montantFranchise: null, remboursement: null, expert: "Polyexpert", dateExpertise: null, refExpert: "", refAssureur: "410191563-000006", statut: "EN COURS", suivi: "02.08.2022 : Déclaration du sinistre\n08.08.2022 : Accusé de réception de la déclaration\n09.08.2022 : Mandatement de l'expert Polyexpert\n12.08.2022 : Réception du rapport préliminaire de l'expert\n15.09.2022 : Expertise sur site\n23.09.2022 : Réception du rapport d'expertise définitif\n28.09.2022 : Accord de l'assureur pour le règlement\n10.10.2022 : Règlement reçu" },
-            { id: 3, projet: "DI043B", spv: "HELEXIA SOLAR 17", adresse: "ZI de la Saulaie\n49130 Les Ponts de Cé", dateSinistre: "2022-08-10", categorie: "Bris machine", sinistre: "Onduleur HS", contrat: "MPV", montantDevis: 5000, montantFranchise: null, remboursement: null, expert: "", dateExpertise: null, refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "En attente de devis" },
-            { id: 4, projet: "BOURG PARK 1", spv: "BOURG PARK 1", adresse: "Rue du 19 mars 1962\n01000 Bourg en Bresse", dateSinistre: "2023-03-15", categorie: "Vol", sinistre: "Vol de câbles", contrat: "MPV", montantDevis: 10000, montantFranchise: null, remboursement: null, expert: "", dateExpertise: null, refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "Déclaration faite, en attente retour assureur" },
-            { id: 5, projet: "002963_ARFR_BLOIS-VINEUIL", spv: "ARFR", adresse: "Rue de la forêt\n41350 Vineuil", dateSinistre: "2023-05-20", categorie: "Bris machine", sinistre: "Onduleur HS", contrat: "MPV", montantDevis: 7500, montantFranchise: null, remboursement: null, expert: "", dateExpertise: null, refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "En attente de devis" },
-            { id: 6, projet: "HELIOCIANA - Montpellier", spv: "HELIOCIANA", adresse: "2 rue des pionniers de l'aéropostale\n34000 Montpellier", dateSinistre: "2023-06-01", categorie: "Infiltration", sinistre: "Infiltration d'eau", contrat: "MPV", montantDevis: null, montantFranchise: null, remboursement: null, expert: "", dateExpertise: null, refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "Expertise en cours" },
-            { id: 7, projet: "HELIOC_4975-KS_07_Narbonne SM", spv: "HELIOC", adresse: "ZI Plaisance\n11100 Narbonne", dateSinistre: "2023-07-10", categorie: "Bris machine", sinistre: "Onduleur HS", contrat: "MPV", montantDevis: 6000, montantFranchise: null, remboursement: null, expert: "", dateExpertise: null, refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "En attente de devis" },
-            { id: 8, projet: "SEMECOURT", spv: "SOLEILIMMO", adresse: "Rue du pré des Meuniers\n59170 Semecourt/Feves", dateSinistre: "2023-08-01", categorie: "Bris machine", sinistre: "Onduleur HS", contrat: "MPV", montantDevis: 8000, montantFranchise: null, remboursement: null, expert: "", dateExpertise: null, refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "En attente de devis" },
-            { id: 9, projet: "008697_CMC", spv: "CMC", adresse: "Rue de la gare\n67120 Molsheim", dateSinistre: "2023-09-12", categorie: "Bris machine", sinistre: "Onduleur HS", contrat: "MPV", montantDevis: 5500, montantFranchise: null, remboursement: null, expert: "", dateExpertise: null, refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "En attente de devis" },
-            { id: 10, projet: "MCD7_1109", spv: "MCD7", adresse: "Rue de l'industrie\n68360 Soultz", dateSinistre: "2023-10-05", categorie: "Bris machine", sinistre: "Onduleur HS", contrat: "MPV", montantDevis: 7000, montantFranchise: null, remboursement: null, expert: "", dateExpertise: null, refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "En attente de devis" },
-            { id: 11, projet: "MCD8_1043", spv: "MCD8", adresse: "Rue de la hardt\n68127 Sainte-Croix-en-Plaine", dateSinistre: "2023-11-15", categorie: "Bris machine", sinistre: "Onduleur HS", contrat: "MPV", montantDevis: 6500, montantFranchise: null, remboursement: null, expert: "", dateExpertise: null, refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "En attente de devis" },
-            { id: 12, projet: "FERME PV16", spv: "FERME PV16", adresse: "Lieu dit Les brandes\n16450 Le Grand Madieu", dateSinistre: "2024-01-10", categorie: "Vol", sinistre: "Vol de câbles", contrat: "MPV", montantDevis: 12000, montantFranchise: null, remboursement: null, expert: "", dateExpertise: null, refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "Déclaration faite, en attente retour assureur" },
-            { id: 13, projet: "FR_1002_0002_HELEXIA 1", spv: "HELEXIA 1", adresse: "ZI les Meurières 69780 Mions", dateSinistre: "2024-03-25", categorie: "Infiltration", sinistre: "Infiltration d'eau, 2 onduleurs HS", contrat: "MPV", montantDevis: null, montantFranchise: null, remboursement: null, expert: "", dateExpertise: "", refExpert: "", refAssureur: "", statut: "STANDBY", suivi: "Attente devis" },
-            { id: 14, projet: "HLX39", spv: "HLX39", adresse: "Rue de la garenne 45140 Ormes", dateSinistre: "2024-06-25", categorie: "Infiltration", sinistre: "Infiltration d'eau, 1 onduleur HS", contrat: "MPV", montantDevis: null, montantFranchise: null, remboursement: null, expert: "", dateExpertise: "", refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "Attente devis" },
-            { id: 15, projet: "LIDL St Vulbas", spv: "LIDL", adresse: "LIDL St Vulbas", dateSinistre: "2024-07-04", categorie: "Infiltration", sinistre: "Infiltration d'eau, 2 onduleurs HS", contrat: "MPV", montantDevis: 15000, montantFranchise: null, remboursement: null, expert: "", dateExpertise: "", refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "Anco a réglé 15k€ et responsabilité à HLX. Trop de délai entre la réparation et la nouvelle évaluation est à 30k€. Intervention urgente effectuée - travaux fait" },
-            { id: 16, projet: "AU01", spv: "MIROIR DU SOLEIL", adresse: "Aushopping Les Trois Rivières", dateSinistre: "2025-06-26", categorie: "Modules", sinistre: "Impacts de grêle", contrat: "MPV", montantDevis: null, montantFranchise: null, remboursement: null, expert: "Attente", dateExpertise: null, refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "" },
-            { id: 17, projet: "Parc à Bétail 1 & 2 - 4862/4866", spv: "EV25", adresse: "Port de Sète", dateSinistre: "2025-06-06", categorie: "Élect", sinistre: "Connecteurs défectueux qui ont causé un léger incendie et endommagé la Centrale et le bac acier. Tous les modules et les connecteurs ont été endommagés et devront être remplacés.", contrat: "MPV", montantDevis: null, montantFranchise: null, remboursement: null, expert: "Attente", dateExpertise: null, refExpert: "", refAssureur: "ER2503526", statut: "EN COURS", suivi: "" },
-            { id: 18, projet: "2143 - Dronne & Belle", spv: "AFD10", adresse: "5 Pl. de la Jeunesse, 24310 Brantôme", dateSinistre: "2025-08-05", categorie: "Élect", sinistre: "Bilan:\n-13 modules photovoltaiques Canadian\nSolar\n-Le système d'intégration pour 20 modules\n-On a pu sauver 7 modules qui n'ont pas été touchés par le feu;\n-Le câblage des strings et mise a la terre est a refaire sur la même surface.\n-On a mis en sécurité les modules PV et on a débranché tous les strings de côté onduleurs;\n-Suite a l'incendie, le local technique est à refaire.", contrat: "MPV", montantDevis: 30000, montantFranchise: null, remboursement: null, expert: "", dateExpertise: null, refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "Analyse interne pour déterminer la responsabilité avant déclaration." }
+            { id: 1, projet: "DI 143", spv: "HELEXIA SOLAR 8", adresse: "Lieu-dit Champ de Loraud\n16140 Lupsault", dateSinistre: "2022-04-08", categorie: "Intempéries", sinistre: "1er \"sinistre\" : litige lié à la structure : Côté juridique - expertise judiciaire\n2ème sinistre : détachement d'une partie métallique", contrat: "MPV", montantDevis: null, montantFranchise: null, remboursement: null, expert: "VERING", dateExpertise: null, refExpert: "22VTB2892", refAssureur: "", statut: "EN COURS", suivi: "Attente rapport des experts (1er et 2ème sinistre)\nL'expert Vering attend un devis pour les réparation - en attendant : Standby de son côté\n21.10.2022 : Retour de l'expert (M. Buchet Vering)\nVent < 110km/h (minimum pour qualifier en tempête) => La responsabilité pour la remise en état du bardage et de la faitière revient au constructeur (décennale)\n09.11.2022 : En attente du chiffrage Prosolia", dateDernierSuivi: null },
+            { id: 2, projet: "DI 300 DEBARRE", spv: "HELEXIA SOLAR 12", adresse: "Pèterenard\n86210 Archigny", dateSinistre: "2022-08-02", categorie: "Incendie", sinistre: "Incendie", contrat: "MPV", montantDevis: 64319.05, montantFranchise: null, remboursement: null, expert: "Polyexpert", dateExpertise: null, refExpert: "", refAssureur: "410191563-000006", statut: "EN COURS", suivi: "02.08.2022 : Déclaration du sinistre\n08.08.2022 : Accusé de réception de la déclaration\n09.08.2022 : Mandatement de l'expert Polyexpert\n12.08.2022 : Réception du rapport préliminaire de l'expert\n15.09.2022 : Expertise sur site\n23.09.2022 : Réception du rapport d'expertise définitif\n28.09.2022 : Accord de l'assureur pour le règlement\n10.10.2022 : Règlement reçu", dateDernierSuivi: null },
+            { id: 3, projet: "DI043B", spv: "Helexia Solar 9", adresse: "Lieu-dit Grelet\n82150 Montaigu de Quecy", dateSinistre: null, categorie: "", sinistre: "Pigeons morts + insalubrité toiture", contrat: "MPV", montantDevis: null, montantFranchise: null, remboursement: null, expert: "", dateExpertise: null, refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "", dateDernierSuivi: null },
+            { id: 4, projet: "BOURG PARK 1", spv: "BOURG PARK", adresse: "Chanelette\n07700 Bourg St Andéol", dateSinistre: "2023-12-22", categorie: "", sinistre: "Choc VTM", contrat: "MPV", montantDevis: 4680, montantFranchise: null, remboursement: null, expert: "", dateExpertise: null, refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "Déclaration faite, en attente retour assureur", dateDernierSuivi: null },
+            { id: 5, projet: "002963_ARFR_BLOIS-VINEUIL", spv: "HELEXIA SOLAR 15", adresse: "99 rue Pierre Gilles de Gennes\n41350 Vineuil", dateSinistre: "2024-06-22", categorie: "", sinistre: "Choc ombrières", contrat: "MPV", montantDevis: 8056.34, montantFranchise: null, remboursement: null, expert: "", dateExpertise: null, refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "En attente de devis", dateDernierSuivi: null },
+            { id: 6, projet: "HELIOCIANA - Montpellier", spv: "HELIO CIANA", adresse: "Route de Ganges\nMontpelier 34000", dateSinistre: "2024-06-20", categorie: "", sinistre: "Panneaux cassés", contrat: "MPV", montantDevis: null, montantFranchise: null, remboursement: null, expert: "", dateExpertise: null, refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "Expertise en cours", dateDernierSuivi: null },
+            { id: 7, projet: "HELIOC_4975-KS_07_Narbonne SM", spv: "HELIO CIANA", adresse: "Avenue du Général Leclerc", dateSinistre: "2024-06-20", categorie: "", sinistre: "Panneaux cassés", contrat: "MPV", montantDevis: null, montantFranchise: null, remboursement: null, expert: "", dateExpertise: null, refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "", dateDernierSuivi: null },
+            { id: 8, projet: "SEMECOURT", spv: "HELEXIA SOLAR 15", adresse: "Voie Romaine CC Auchan, 57280 Semécourt", dateSinistre: null, categorie: "", sinistre: "Infiltration d'eau", contrat: "MPV", montantDevis: null, montantFranchise: null, remboursement: null, expert: "", dateExpertise: null, refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "", dateDernierSuivi: null },
+            { id: 9, projet: "008697_CMC", spv: "Helexia Dev", adresse: "ZAC les Manteaux\n41350 Vineuil", dateSinistre: null, categorie: "", sinistre: "45 panneaux cassés, sinistre à déclarer - Problème de qualité. Pas de déclaration - Réclamation SPA à faire à Amarenco - 300 panneaux", contrat: "MPV", montantDevis: null, montantFranchise: null, remboursement: null, expert: "", dateExpertise: null, refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "", dateDernierSuivi: null },
+            { id: 10, projet: "002963_ARFR_Blois Vineuil", spv: "HELEXIA SOLAR 15", adresse: "99 rue Pierre Gilles de Gennes\n41350 Vineuil", dateSinistre: null, categorie: "", sinistre: "45 panneaux cassés, sinistre à déclarer - Problème de qualité. Pas de déclaration - Réclamation SPA à faire à Amarenco - 300 panneaux", contrat: "MPV", montantDevis: null, montantFranchise: null, remboursement: null, expert: "", dateExpertise: null, refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "", dateDernierSuivi: null },
+            { id: 12, projet: "FERME PV16", spv: "FERME PV16", adresse: "Lieu-dit Les Bourbouraux \n13630 Eyragues", dateSinistre: null, categorie: "", sinistre: "Problématique de panneaux - Amarenco a réglé 15k€ et responsabilité à HLX. Trop de délai entre la réparation et la nouvelle évaluation est à 30k€. Intervention urgente effectuée - travaux fait", contrat: "MPV", montantDevis: 30000, montantFranchise: null, remboursement: null, expert: "", dateExpertise: null, refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "", dateDernierSuivi: null },
+            { id: 16, projet: "AU01", spv: "MIROIR DU SOLEIL", adresse: "Aushopping Les Trois Rivières", dateSinistre: "2025-06-26", categorie: "Modules", sinistre: "Impacts de grêle", contrat: "MPV", montantDevis: null, montantFranchise: null, remboursement: null, expert: "Attente", dateExpertise: null, refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "", dateDernierSuivi: null },
+            { id: 17, projet: "Parc à Bétail 1 & 2 - 4862/4866", spv: "EV25", adresse: "Port de Sète\n34200 Sète", dateSinistre: "2025-06-06", categorie: "Élect", sinistre: "Connecteurs défectueux qui ont causé un léger incendie et endommagé la Centrale et le bac acier. Tous les modules et les connecteurs ont été endommagés et devront être remplacés.", contrat: "MPV", montantDevis: 45000, montantFranchise: null, remboursement: null, expert: "Attente", dateExpertise: null, refExpert: "", refAssureur: "ER2503526", statut: "EN COURS", suivi: "", dateDernierSuivi: null },
+            { id: 18, projet: "2143 - Dronne & Belle", spv: "AFD10", adresse: "5 Pl. de la Jeunesse, 24310 Brantôme", dateSinistre: "2025-08-05", categorie: "Élect", sinistre: "Bilan:\n-13 modules photovoltaiques Canadian\nSolar\n-Le système d'intégration pour 20 modules\n-On a pu sauver 7 modules qui n'ont pas été touchés par le feu;\n-Le câblage des strings et mise a la terre est a refaire sur la même surface.\n-On a mis en sécurité les modules PV et on a débranché tous les strings de côté onduleurs;\n-Suite a l'incendie, le local technique est à refaire.", contrat: "MPV", montantDevis: 30000, montantFranchise: null, remboursement: null, expert: "", dateExpertise: null, refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "Analyse interne pour déterminer la responsabilité avant déclaration.", dateDernierSuivi: null }
         ];
 
         let claimsData = JSON.parse(localStorage.getItem('claimsDataHelexia')) || initialClaimsData;
 
-        const contractsData = [
-            { id: 1, businessLine: "IPP/EPC", nomAssurance: "MSIG TRC Tout Risques Chantier", description: "Construction, essais, et mise en service de centrales photovoltaïques", montantGaranties: "20,000,000 € par sinistre", details: "Essentielle pour couvrir les risques associés à la construction de nouvelles installations, garantissant la protection financière contre les dommages matériels ou pertes.", insurerName: "MSIG", policyId: "F410191563-TRC", annualPremium: 20000 },
-            { id: 2, businessLine: "IPP", nomAssurance: "MSIG Exploitation", description: "Exploitation de centrales photovoltaïques Reconstruction de la Centrale 1 an de revenus", montantGaranties: "20,000,000 € par sinistre", details: "Couvre les dommages ou pertes de revenus suite à des incidents affectant les installations en opération, assurant la continuité des opérations.", insurerName: "MSIG", policyId: "F410191563-EXP", annualPremium: 280237.6 },
-            { id: 3, businessLine: "EPC", nomAssurance: "QBE Décennale", description: "Couverture de la responsabilité décennale pour la construction d'ouvrages, incluant les travaux de réparation en cas de dommages", montantGaranties: "10,000,000 € pour ouvrages soumis à assurance", details: "Nécessaire pour se conformer aux obligations légales en matière de construction, protégeant contre les coûts associés aux défauts de construction découverts après livraison.", insurerName: "QBE", policyId: "FR00100522CA22A", annualPremium: 82611.04 },
-            { id: 4, businessLine: "IPP/SEED", nomAssurance: "MMA RC PRO", description: "1) Activités PEC 2) Activités O&M externes et entre HEDE & SPV 3) Prestations de DEV", montantGaranties: "10,000,000 € par sinistre", details: "Responsabilité professionnelle large : Fournit une large couverture pour les activités professionnelles, y compris en cas de fautes professionnelles ou accidents.", insurerName: "MMA", policyId: "148553843", annualPremium: 26461 },
-            { id: 5, businessLine: "SEED", nomAssurance: "QBE CVC", description: "Responsabilités en tant que bureau d'études techniques en CVC, et Assistance au Maître d'Ouvrage", montantGaranties: "7,500,000 € par année d'assurance", details: "Cruciale pour les services de consultation technique et de gestion de projet, offrant une protection contre les réclamations liées à la conception et la gestion en CVC", insurerName: "QBE", policyId: "FR00100522CA22A-CVC", annualPremium: 0 },
-            { id: 6, businessLine: "RC générale/Bureaux", nomAssurance: "Generali RC Exploitation", description: "Responsabilité civile liée aux activités générales de bureaux", montantGaranties: "8,000,000 € par sinistre", details: "Protège l'entreprise des réclamations de tiers pour dommages causés pendant les opérations courantes.", insurerName: "Generali", policyId: "AP986946", annualPremium: 1500 }
-        ];
-
         // =================================================================================
         // --- SECTION CONFIGURATION ---
         // Références aux éléments de la page (tableaux, modales, etc.)
-        // et variables pour gérer l'état de l'application (tri, année sélectionnée).
+        // et variables pour gérer l'état de l'application (tri).
         // =================================================================================
 
         const claimsTableBody = document.getElementById('claimsTableBody'), searchInput = document.getElementById('searchInput');
-        const contractsTableBody = document.getElementById('contractsTableBody'), totalPremiumEl = document.getElementById('total-premium');
         const claimModal = document.getElementById('claimModal'), modalTitle = document.getElementById('modalTitle'), modalBody = document.getElementById('modalBody'), modalFooter = document.getElementById('modalFooter');
-        const contractModal = document.getElementById('contractModal'), contractModalTitle = document.getElementById('contractModalTitle'), contractModalBody = document.getElementById('contractModalBody');
-
+        
         let currentSort = { column: 'dateSinistre', direction: 'desc' };
-        let selectedYear = 2024;
 
         // =================================================================================
         // --- SECTION UTILITAIRES ---
@@ -261,11 +182,11 @@
 
         // =================================================================================
         // --- SECTION AFFICHAGE ---
-        // Fonctions responsables de la génération du HTML pour les tableaux.
+        // Fonction responsable de la génération du HTML pour le tableau des sinistres.
         // =================================================================================
 
         const renderClaimsTable = (data) => {
-            claimsTableBody.innerHTML = data.length === 0 ? `<tr><td colspan="5" class="text-center py-10 text-gray-500">Aucun sinistre trouvé.</td></tr>` : '';
+            claimsTableBody.innerHTML = data.length === 0 ? `<tr><td colspan="6" class="text-center py-10 text-gray-500">Aucun sinistre trouvé.</td></tr>` : '';
             data.forEach(claim => {
                 const row = claimsTableBody.insertRow();
                 row.className = 'hover:bg-gray-50 cursor-pointer';
@@ -273,24 +194,10 @@
                     <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">${claim.projet}</div></td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${claim.spv || 'N/A'}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${displayDate(claim.dateSinistre)}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${displayDate(claim.dateDernierSuivi)}</td>
                     <td class="px-6 py-4 whitespace-nowrap">${createStatusBadge(claim.statut)}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">${formatCurrency(claim.montantDevis)}</td>`;
                 row.onclick = () => openClaimModal(claim.id);
-            });
-        };
-
-        const renderContractsPage = () => {
-            totalPremiumEl.textContent = formatCurrency(contractsData.reduce((sum, c) => sum + (c.annualPremium || 0), 0));
-            contractsTableBody.innerHTML = '';
-            contractsData.forEach(c => {
-                const row = contractsTableBody.insertRow();
-                row.className = 'hover:bg-gray-50 cursor-pointer';
-                row.innerHTML = `
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-indigo-600 hover:text-indigo-800">${c.nomAssurance}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${c.insurerName}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${c.policyId}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">${formatCurrency(c.annualPremium)}</td>`;
-                row.onclick = () => openContractModal(c.id);
             });
         };
 
@@ -334,7 +241,7 @@
                 id: newId, projet: "Nouveau Sinistre", spv: "", adresse: "", dateSinistre: new Date().toISOString().split('T')[0],
                 categorie: "", sinistre: "", contrat: "MPV", montantDevis: null, montantFranchise: null,
                 remboursement: null, expert: "", dateExpertise: null, refExpert: "", refAssureur: "",
-                statut: "EN COURS", suivi: ""
+                statut: "EN COURS", suivi: "", dateDernierSuivi: null
             };
             claimsData.unshift(newClaim); // Ajoute au début de la liste
             openClaimModal(newId, true); // Ouvre directement en mode édition
@@ -342,8 +249,7 @@
 
         // =================================================================================
         // --- SECTION MODALES ---
-        // Logique pour ouvrir, fermer, afficher et éditer les détails
-        // d'un sinistre ou d'un contrat dans une fenêtre modale.
+        // Logique pour ouvrir, fermer, afficher et éditer les détails d'un sinistre.
         // =================================================================================
 
         const openClaimModal = (claimId, isEditMode = false) => {
@@ -366,11 +272,12 @@
                 <div><span class="font-semibold text-gray-500">Montant Devis:</span> ${formatCurrency(claim.montantDevis)}</div>
                 <div><span class="font-semibold text-gray-500">Franchise:</span> ${formatCurrency(claim.montantFranchise)}</div>
                 <div><span class="font-semibold text-gray-500">Remboursement:</span> ${formatCurrency(claim.remboursement)}</div>
-                <div class="md:col-span-2 border-t pt-4 mt-2"><h4 class="font-semibold text-gray-700 mb-2">Expertise</h4></div>
+                <div class="md:col-span-2 border-t pt-4 mt-2"><h4 class="font-semibold text-gray-700 mb-2">Expertise & Suivi</h4></div>
                 <div><span class="font-semibold text-gray-500">Expert:</span> ${claim.expert || 'N/A'}</div>
                 <div><span class="font-semibold text-gray-500">Date expertise:</span> ${displayDate(claim.dateExpertise)}</div>
+                <div><span class="font-semibold text-gray-500">Date dernier suivi:</span> ${displayDate(claim.dateDernierSuivi)}</div>
                 <div><span class="font-semibold text-gray-500">Réf. Assureur:</span> ${claim.refAssureur || 'N/A'}</div>
-                <div class="md:col-span-2 p-4 bg-blue-50 rounded-md mt-4"><h4 class="font-semibold text-gray-700 mb-1">Suivi</h4><p class="text-gray-600 whitespace-pre-wrap">${claim.suivi || 'Aucun'}</p></div>
+                <div class="md:col-span-2 p-4 bg-blue-50 rounded-md mt-4"><h4 class="font-semibold text-gray-700 mb-1">Détails du Suivi</h4><p class="text-gray-600 whitespace-pre-wrap">${claim.suivi || 'Aucun'}</p></div>
             </div>`;
             modalFooter.innerHTML = `<button id="editClaimBtn" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 text-sm font-medium">Éditer le dossier</button>
                                    <button class="footer-close-btn px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 text-sm">Fermer</button>`;
@@ -398,6 +305,9 @@
                 <div class="grid md:grid-cols-3 gap-4 border-t pt-4">
                     <div><label class="block font-medium">Expert</label><input type="text" name="expert" value="${claim.expert || ''}" class="mt-1 w-full rounded-md border-gray-300 shadow-sm"></div>
                     <div><label class="block font-medium">Date Expertise</label><input type="date" name="dateExpertise" value="${formatDate(claim.dateExpertise)}" class="mt-1 w-full rounded-md border-gray-300 shadow-sm"></div>
+                    <div><label class="block font-medium">Date dernier suivi</label><input type="date" name="dateDernierSuivi" value="${formatDate(claim.dateDernierSuivi)}" class="mt-1 w-full rounded-md border-gray-300 shadow-sm"></div>
+                </div>
+                 <div class="grid md:grid-cols-1 gap-4 border-t pt-4">
                     <div><label class="block font-medium">Réf. Assureur</label><input type="text" name="refAssureur" value="${claim.refAssureur || ''}" class="mt-1 w-full rounded-md border-gray-300 shadow-sm"></div>
                 </div>
                 <div class="border-t pt-4"><label class="block font-medium">Suivi</label><textarea name="suivi" rows="3" class="mt-1 w-full rounded-md border-gray-300 shadow-sm">${claim.suivi || ''}</textarea></div>
@@ -427,55 +337,7 @@
             closeModal(claimModal);
         };
 
-        const openContractModal = (contractId) => {
-            const contract = contractsData.find(c => c.id === contractId);
-            if (!contract) return;
-            contractModalTitle.textContent = `Détails: ${contract.nomAssurance}`;
-            let premiumBreakdownHtml = '';
-            if (contract.nomAssurance === "MSIG Exploitation" && selectedYear === 2025) {
-                premiumBreakdownHtml = `
-                    <div class="border rounded-lg overflow-hidden">
-                        <table class="w-full text-sm text-left text-gray-500">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                                <tr><th class="px-6 py-3"></th><th class="px-6 py-3 text-center">Dommages Matériels</th><th class="px-6 py-3 text-center">Pertes de recettes</th></tr>
-                            </thead>
-                            <tbody>
-                                <tr class="bg-white border-b"><td class="px-6 py-4 font-medium">Centrales en toiture (Hors Agricole), ombrières, centrales au sol</td><td class="px-6 py-4 text-center"><b>1.52‰</b> HCatNat (20%) HGAREAT (3,5%) HT (9%) soit<br><b>2,05 ‰ TTC</b></td><td class="px-6 py-4 text-center"><b>2.38‰</b> HCatNat (20%) HGAREAT (3,5%) HT (9%) soit<br><b>3.20 ‰ TTC</b></td></tr>
-                                <tr class="bg-white border-b"><td class="px-6 py-4 font-medium">Centrales en toiture (activités agricoles sous toiture) *</td><td class="px-6 py-4 text-center"><b>2.53‰</b> HCatNat (20%) HGAREAT (3,5%) HT (9%) soit<br><b>3.41 ‰ TTC</b></td><td class="px-6 py-4 text-center"><b>3.96‰</b> HCatNat (20%) HGAREAT (3,5%) HT (9%) soit<br><b>5.33 ‰ TTC</b></td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="border rounded-lg overflow-hidden mt-4">
-                         <table class="w-full text-sm text-left text-gray-500">
-                             <thead class="text-xs text-gray-700 uppercase bg-gray-50"><tr><th class="px-6 py-3"></th><th class="px-6 py-3 text-center">Responsabilité Civile Exploitation</th></tr></thead>
-                             <tbody><tr class="bg-white"><td class="px-6 py-4 font-medium">Centrales – Tous types</td><td class="px-6 py-4 text-center"><b>0,55 ‰</b> Hors Taxes soit <b>0,60 ‰ TTC</b></td></tr></tbody>
-                        </table>
-                    </div>
-                    <div class="text-center text-sm font-medium p-3 bg-gray-100 rounded-md mt-4">Prime minimum par centrale (y compris Responsabilité Civile Exploitation) : 400 € HCN HG HT</div>`;
-            }
-            contractModalBody.innerHTML = `<div class="space-y-6">
-                <div>
-                    <h4 class="text-base font-semibold text-gray-800 mb-2">Informations Générales</h4>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                        <div><span class="font-semibold text-gray-500">Business Line:</span> ${contract.businessLine}</div>
-                        <div><span class="font-semibold text-gray-500">Montant Garanties:</span> ${contract.montantGaranties}</div>
-                        <div class="md:col-span-2"><span class="font-semibold text-gray-500">Description:</span> ${contract.description}</div>
-                        <div class="md:col-span-2 p-4 bg-gray-50 rounded-md"><h5 class="font-semibold text-gray-700 mb-1">Détails</h5><p class="text-gray-600">${contract.details}</p></div>
-                    </div>
-                </div>
-                ${premiumBreakdownHtml ? `<div><h4 class="text-base font-semibold text-gray-800 mb-2">Répartition de la prime (${selectedYear})</h4>${premiumBreakdownHtml}</div>` : ''}
-            </div>`;
-            contractModal.classList.add('active');
-        };
-
         const closeModal = (modal) => modal.classList.remove('active');
-
-        // --- NAVIGATION ---
-        const switchPage = (targetPage) => {
-            document.querySelectorAll('[data-page]').forEach(page => page.classList.remove('active'));
-            document.querySelector(`[data-page="${targetPage}"]`).classList.add('active');
-            document.querySelectorAll('.nav-link').forEach(link => link.classList.toggle('active', link.dataset.target === targetPage));
-        };
 
         // =================================================================================
         // --- SECTION INITIALISATION ---
@@ -486,24 +348,15 @@
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
             sortClaimsTable('dateSinistre');
-            renderContractsPage();
-
+            
             document.getElementById('addClaimBtn').onclick = addNewClaim;
             searchInput.addEventListener('keyup', filterAndRenderClaims);
             document.querySelectorAll('.table-sortable th').forEach(h => h.onclick = () => sortClaimsTable(h.dataset.sort));
             document.querySelectorAll('.nav-link').forEach(link => link.onclick = (e) => { e.preventDefault(); switchPage(link.dataset.target); });
-            document.querySelectorAll('.close-modal-btn').forEach(btn => btn.onclick = () => { closeModal(claimModal); closeModal(contractModal); });
+            document.querySelectorAll('.close-modal-btn').forEach(btn => btn.onclick = () => { closeModal(claimModal); });
             
-            document.querySelectorAll('.year-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    document.querySelectorAll('.year-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    selectedYear = parseInt(btn.dataset.year);
-                });
-            });
-
             claimModal.onclick = (e) => { if (e.target === claimModal) closeModal(claimModal); };
-            contractModal.onclick = (e) => { if (e.target === contractModal) closeModal(contractModal); };
+            claimModal.querySelector('.modal-content').addEventListener('click', (e) => e.stopPropagation());
         });
     </script>
 </body>
