@@ -432,11 +432,16 @@
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
             
+            const appId = typeof __app_id !== 'undefined' ? __app_id : 'helexia-sinistres-app';
+            const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
+            const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
             if (!firebaseConfig) {
                 initializeOfflineMode();
             } else {
-                auth = getAuth(initializeApp(firebaseConfig));
-                db = getFirestore(auth.app);
+                const app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
                 claimsCollectionRef = collection(db, `/artifacts/${appId}/public/data/sinistres`);
 
                 onAuthStateChanged(auth, (user) => {
