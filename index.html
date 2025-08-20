@@ -140,19 +140,19 @@
         // =================================================================================
 
         const initialClaimsData = [
-            { projet: "DI 143", spv: "HELEXIA SOLAR 8", adresse: "Lieu-dit Champ de Loraud\n16140 Lupsault", dateSinistre: "2022-04-08", categorie: "Intempéries", sinistre: "1er \"sinistre\" : litige lié à la structure : Côté juridique - expertise judiciaire\n2ème sinistre : détachement d'une partie métallique", contrat: "MPV", montantDevis: null, montantFranchise: null, remboursement: null, expert: "VERING", dateExpertise: null, refExpert: "22VTB2892", refAssureur: "", statut: "EN COURS", suivi: "Attente rapport des experts (1er et 2ème sinistre)\nL'expert Vering attend un devis pour les réparation - en attendant : Standby de son côté\n21.10.2022 : Retour de l'expert (M. Buchet Vering)\nVent < 110km/h (minimum pour qualifier en tempête) => La responsabilité pour la remise en état du bardage et de la faitière revient au constructeur (décennale)\n09.11.2022 : En attente du chiffrage Prosolia", dateDernierSuivi: null },
-            { projet: "DI 300 DEBARRE", spv: "HELEXIA SOLAR 12", adresse: "Pèterenard\n86210 Archigny", dateSinistre: "2022-08-02", categorie: "Incendie", sinistre: "Incendie", contrat: "MPV", montantDevis: 64319.05, montantFranchise: null, remboursement: null, expert: "Polyexpert", dateExpertise: null, refExpert: "", refAssureur: "410191563-000006", statut: "EN COURS", suivi: "02.08.2022 : Déclaration du sinistre\n08.08.2022 : Accusé de réception de la déclaration\n09.08.2022 : Mandatement de l'expert Polyexpert\n12.08.2022 : Réception du rapport préliminaire de l'expert\n15.09.2022 : Expertise sur site\n23.09.2022 : Réception du rapport d'expertise définitif\n28.09.2022 : Accord de l'assureur pour le règlement\n10.10.2022 : Règlement reçu", dateDernierSuivi: null },
-            { projet: "DI043B", spv: "Helexia Solar 9", adresse: "Lieu-dit Grelet\n82150 Montaigu de Quecy", dateSinistre: null, categorie: "", sinistre: "Pigeons morts + insalubrité toiture", contrat: "MPV", montantDevis: null, montantFranchise: null, remboursement: null, expert: "", dateExpertise: null, refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "", dateDernierSuivi: null },
-            { projet: "BOURG PARK 1", spv: "BOURG PARK", adresse: "Chanelette\n07700 Bourg St Andéol", dateSinistre: "2023-12-22", categorie: "", sinistre: "Choc VTM", contrat: "MPV", montantDevis: 4680, montantFranchise: null, remboursement: null, expert: "", dateExpertise: null, refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "Déclaration faite, en attente retour assureur", dateDernierSuivi: null },
-            { projet: "002963_ARFR_BLOIS-VINEUIL", spv: "HELEXIA SOLAR 15", adresse: "99 rue Pierre Gilles de Gennes\n41350 Vineuil", dateSinistre: "2024-06-22", categorie: "", sinistre: "Choc ombrières", contrat: "MPV", montantDevis: 8056.34, montantFranchise: null, remboursement: null, expert: "", dateExpertise: null, refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "En attente de devis", dateDernierSuivi: null },
-            { projet: "HELIOCIANA - Montpellier", spv: "HELIO CIANA", adresse: "Route de Ganges\nMontpelier 34000", dateSinistre: "2024-06-20", categorie: "", sinistre: "Panneaux cassés", contrat: "MPV", montantDevis: null, montantFranchise: null, remboursement: null, expert: "", dateExpertise: null, refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "Expertise en cours", dateDernierSuivi: null },
-            { projet: "HELIOC_4975-KS_07_Narbonne SM", spv: "HELIO CIANA", adresse: "Avenue du Général Leclerc", dateSinistre: "2024-06-20", categorie: "", sinistre: "Panneaux cassés", contrat: "MPV", montantDevis: null, montantFranchise: null, remboursement: null, expert: "", dateExpertise: null, refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "", dateDernierSuivi: null },
-            { projet: "008697_CMC", spv: "Helexia Dev", adresse: "ZAC les Manteaux\n41350 Vineuil", dateSinistre: null, categorie: "", sinistre: "45 panneaux cassés, sinistre à déclarer - Problème de qualité. Pas de déclaration - Réclamation SPA à faire à Amarenco - 300 panneaux", contrat: "MPV", montantDevis: null, montantFranchise: null, remboursement: null, expert: "", dateExpertise: null, refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "", dateDernierSuivi: null },
-            { projet: "002963_ARFR_Blois Vineuil", spv: "HELEXIA SOLAR 15", adresse: "99 rue Pierre Gilles de Gennes\n41350 Vineuil", dateSinistre: null, categorie: "", sinistre: "45 panneaux cassés, sinistre à déclarer - Problème de qualité. Pas de déclaration - Réclamation SPA à faire à Amarenco - 300 panneaux", contrat: "MPV", montantDevis: null, montantFranchise: null, remboursement: null, expert: "", dateExpertise: null, refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "", dateDernierSuivi: null },
-            { projet: "FERME PV16", spv: "FERME PV16", adresse: "Lieu-dit Les Bourbouraux \n13630 Eyragues", dateSinistre: null, categorie: "", sinistre: "Problématique de panneaux - Amarenco a réglé 15k€ et responsabilité à HLX. Trop de délai entre la réparation et la nouvelle évaluation est à 30k€. Intervention urgente effectuée - travaux fait", contrat: "MPV", montantDevis: 30000, montantFranchise: null, remboursement: null, expert: "", dateExpertise: null, refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "", dateDernierSuivi: null },
-            { projet: "AU01", spv: "MIROIR DU SOLEIL", adresse: "Aushopping Les Trois Rivières", dateSinistre: "2025-06-26", categorie: "Modules", sinistre: "Impacts de grêle", contrat: "MPV", montantDevis: null, montantFranchise: null, remboursement: null, expert: "Attente", dateExpertise: null, refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "", dateDernierSuivi: null },
-            { projet: "Parc à Bétail 1 & 2 - 4862/4866", spv: "EV25", adresse: "Port de Sète\n34200 Sète", dateSinistre: "2025-06-06", categorie: "Élect", sinistre: "Connecteurs défectueux qui ont causé un léger incendie et endommagé la Centrale et le bac acier. Tous les modules et les connecteurs ont été endommagés et devront être remplacés.", contrat: "MPV", montantDevis: 45000, montantFranchise: null, remboursement: null, expert: "Attente", dateExpertise: null, refExpert: "", refAssureur: "ER2503526", statut: "EN COURS", suivi: "", dateDernierSuivi: null },
-            { projet: "2143 - Dronne & Belle", spv: "AFD10", adresse: "5 Pl. de la Jeunesse, 24310 Brantôme", dateSinistre: "2025-08-05", categorie: "Élect", sinistre: "Bilan:\n-13 modules photovoltaiques Canadian\nSolar\n-Le système d'intégration pour 20 modules\n-On a pu sauver 7 modules qui n'ont pas été touchés par le feu;\n-Le câblage des strings et mise a la terre est a refaire sur la même surface.\n-On a mis en sécurité les modules PV et on a débranché tous les strings de côté onduleurs;\n-Suite a l'incendie, le local technique est à refaire.", contrat: "MPV", montantDevis: 30000, montantFranchise: null, remboursement: null, expert: "", dateExpertise: null, refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "Analyse interne pour déterminer la responsabilité avant déclaration.", dateDernierSuivi: null }
+            { projet: "DI 143", spv: "HELEXIA SOLAR 8", adresse: "Lieu-dit Champ de Loraud\n16140 Lupsault", dateSinistre: "2022-04-08", categorie: "Intempéries", sinistre: "1er \"sinistre\" : litige lié à la structure : Côté juridique - expertise judiciaire\n2ème sinistre : détachement d'une partie métallique", contrat: "MPV", montantDevis: null, montantFranchise: null, remboursement: null, expert: "VERING", dateExpertise: null, refExpert: "22VTB2892", refAssureur: "", statut: "EN COURS", suivi: "Attente rapport des experts (1er et 2ème sinistre)\nL'expert Vering attend un devis pour les réparation - en attendant : Standby de son côté\n21.10.2022 : Retour de l'expert (M. Buchet Vering)\nVent < 110km/h (minimum pour qualifier en tempête) => La responsabilité pour la remise en état du bardage et de la faitière revient au constructeur (décennale)\n09.11.2022 : En attente du chiffrage Prosolia", dateDernierSuivi: null, sharepointLink: null },
+            { projet: "DI 300 DEBARRE", spv: "HELEXIA SOLAR 12", adresse: "Pèterenard\n86210 Archigny", dateSinistre: "2022-08-02", categorie: "Incendie", sinistre: "Incendie", contrat: "MPV", montantDevis: 64319.05, montantFranchise: null, remboursement: null, expert: "Polyexpert", dateExpertise: null, refExpert: "", refAssureur: "410191563-000006", statut: "EN COURS", suivi: "02.08.2022 : Déclaration du sinistre\n08.08.2022 : Accusé de réception de la déclaration\n09.08.2022 : Mandatement de l'expert Polyexpert\n12.08.2022 : Réception du rapport préliminaire de l'expert\n15.09.2022 : Expertise sur site\n23.09.2022 : Réception du rapport d'expertise définitif\n28.09.2022 : Accord de l'assureur pour le règlement\n10.10.2022 : Règlement reçu", dateDernierSuivi: null, sharepointLink: null },
+            { projet: "DI043B", spv: "Helexia Solar 9", adresse: "Lieu-dit Grelet\n82150 Montaigu de Quecy", dateSinistre: null, categorie: "", sinistre: "Pigeons morts + insalubrité toiture", contrat: "MPV", montantDevis: null, montantFranchise: null, remboursement: null, expert: "", dateExpertise: null, refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "", dateDernierSuivi: null, sharepointLink: null },
+            { projet: "BOURG PARK 1", spv: "BOURG PARK", adresse: "Chanelette\n07700 Bourg St Andéol", dateSinistre: "2023-12-22", categorie: "", sinistre: "Choc VTM", contrat: "MPV", montantDevis: 4680, montantFranchise: null, remboursement: null, expert: "", dateExpertise: null, refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "Déclaration faite, en attente retour assureur", dateDernierSuivi: null, sharepointLink: null },
+            { projet: "002963_ARFR_BLOIS-VINEUIL", spv: "HELEXIA SOLAR 15", adresse: "99 rue Pierre Gilles de Gennes\n41350 Vineuil", dateSinistre: "2024-06-22", categorie: "", sinistre: "Choc ombrières", contrat: "MPV", montantDevis: 8056.34, montantFranchise: null, remboursement: null, expert: "", dateExpertise: null, refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "En attente de devis", dateDernierSuivi: null, sharepointLink: null },
+            { projet: "HELIOCIANA - Montpellier", spv: "HELIO CIANA", adresse: "Route de Ganges\nMontpelier 34000", dateSinistre: "2024-06-20", categorie: "", sinistre: "Panneaux cassés", contrat: "MPV", montantDevis: null, montantFranchise: null, remboursement: null, expert: "", dateExpertise: null, refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "Expertise en cours", dateDernierSuivi: null, sharepointLink: null },
+            { projet: "HELIOC_4975-KS_07_Narbonne SM", spv: "HELIO CIANA", adresse: "Avenue du Général Leclerc", dateSinistre: "2024-06-20", categorie: "", sinistre: "Panneaux cassés", contrat: "MPV", montantDevis: null, montantFranchise: null, remboursement: null, expert: "", dateExpertise: null, refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "", dateDernierSuivi: null, sharepointLink: null },
+            { projet: "008697_CMC", spv: "Helexia Dev", adresse: "ZAC les Manteaux\n41350 Vineuil", dateSinistre: null, categorie: "", sinistre: "45 panneaux cassés, sinistre à déclarer - Problème de qualité. Pas de déclaration - Réclamation SPA à faire à Amarenco - 300 panneaux", contrat: "MPV", montantDevis: null, montantFranchise: null, remboursement: null, expert: "", dateExpertise: null, refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "", dateDernierSuivi: null, sharepointLink: null },
+            { projet: "002963_ARFR_Blois Vineuil", spv: "HELEXIA SOLAR 15", adresse: "99 rue Pierre Gilles de Gennes\n41350 Vineuil", dateSinistre: null, categorie: "", sinistre: "45 panneaux cassés, sinistre à déclarer - Problème de qualité. Pas de déclaration - Réclamation SPA à faire à Amarenco - 300 panneaux", contrat: "MPV", montantDevis: null, montantFranchise: null, remboursement: null, expert: "", dateExpertise: null, refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "", dateDernierSuivi: null, sharepointLink: null },
+            { projet: "FERME PV16", spv: "FERME PV16", adresse: "Lieu-dit Les Bourbouraux \n13630 Eyragues", dateSinistre: null, categorie: "", sinistre: "Problématique de panneaux - Amarenco a réglé 15k€ et responsabilité à HLX. Trop de délai entre la réparation et la nouvelle évaluation est à 30k€. Intervention urgente effectuée - travaux fait", contrat: "MPV", montantDevis: 30000, montantFranchise: null, remboursement: null, expert: "", dateExpertise: null, refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "", dateDernierSuivi: null, sharepointLink: null },
+            { projet: "AU01", spv: "MIROIR DU SOLEIL", adresse: "Aushopping Les Trois Rivières", dateSinistre: "2025-06-26", categorie: "Modules", sinistre: "Impacts de grêle", contrat: "MPV", montantDevis: null, montantFranchise: null, remboursement: null, expert: "Attente", dateExpertise: null, refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "", dateDernierSuivi: null, sharepointLink: null },
+            { projet: "Parc à Bétail 1 & 2 - 4862/4866", spv: "EV25", adresse: "Port de Sète\n34200 Sète", dateSinistre: "2025-06-06", categorie: "Élect", sinistre: "Connecteurs défectueux qui ont causé un léger incendie et endommagé la Centrale et le bac acier. Tous les modules et les connecteurs ont été endommagés et devront être remplacés.", contrat: "MPV", montantDevis: 45000, montantFranchise: null, remboursement: null, expert: "Attente", dateExpertise: null, refExpert: "", refAssureur: "ER2503526", statut: "EN COURS", suivi: "", dateDernierSuivi: null, sharepointLink: null },
+            { projet: "2143 - Dronne & Belle", spv: "AFD10", adresse: "5 Pl. de la Jeunesse, 24310 Brantôme", dateSinistre: "2025-08-05", categorie: "Élect", sinistre: "Bilan:\n-13 modules photovoltaiques Canadian\nSolar\n-Le système d'intégration pour 20 modules\n-On a pu sauver 7 modules qui n'ont pas été touchés par le feu;\n-Le câblage des strings et mise a la terre est a refaire sur la même surface.\n-On a mis en sécurité les modules PV et on a débranché tous les strings de côté onduleurs;\n-Suite a l'incendie, le local technique est à refaire.", contrat: "MPV", montantDevis: 30000, montantFranchise: null, remboursement: null, expert: "", dateExpertise: null, refExpert: "", refAssureur: "", statut: "EN COURS", suivi: "Analyse interne pour déterminer la responsabilité avant déclaration.", dateDernierSuivi: null, sharepointLink: null }
         ];
 
         let claimsData = []; // Ce tableau contiendra les données en temps réel de Firestore
@@ -250,7 +250,7 @@
                 projet: "Nouveau Sinistre", spv: "", adresse: "", dateSinistre: new Date().toISOString().split('T')[0],
                 categorie: "", sinistre: "", contrat: "MPV", montantDevis: null, montantFranchise: null,
                 remboursement: null, expert: "", dateExpertise: null, refExpert: "", refAssureur: "",
-                statut: "EN COURS", suivi: "", dateDernierSuivi: null
+                statut: "EN COURS", suivi: "", dateDernierSuivi: null, sharepointLink: null
             };
 
             if (isOnlineMode) {
@@ -298,6 +298,7 @@
                 <div><span class="font-semibold text-gray-500">Date expertise:</span> ${displayDate(claim.dateExpertise)}</div>
                 <div><span class="font-semibold text-gray-500">Date dernier suivi:</span> ${displayDate(claim.dateDernierSuivi)}</div>
                 <div><span class="font-semibold text-gray-500">Réf. Assureur:</span> ${claim.refAssureur || 'N/A'}</div>
+                <div class="md:col-span-2"><span class="font-semibold text-gray-500">Lien SharePoint:</span> ${claim.sharepointLink ? `<a href="${claim.sharepointLink}" target="_blank" class="text-indigo-600 hover:underline ml-2">${claim.sharepointLink}</a>` : 'N/A'}</div>
                 <div class="md:col-span-2 p-4 bg-blue-50 rounded-md mt-4"><h4 class="font-semibold text-gray-700 mb-1">Détails du Suivi</h4><p class="text-gray-600 whitespace-pre-wrap">${claim.suivi || 'Aucun'}</p></div>
             </div>`;
             modalFooter.innerHTML = `<button id="editClaimBtn" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 text-sm font-medium">Éditer le dossier</button>
@@ -330,6 +331,7 @@
                 </div>
                  <div class="grid md:grid-cols-1 gap-4 border-t pt-4">
                     <div><label class="block font-medium">Réf. Assureur</label><input type="text" name="refAssureur" value="${claim.refAssureur || ''}" class="mt-1 w-full rounded-md border-gray-300 shadow-sm"></div>
+                    <div><label class="block font-medium">Lien SharePoint</label><input type="url" name="sharepointLink" value="${claim.sharepointLink || ''}" class="mt-1 w-full rounded-md border-gray-300 shadow-sm" placeholder="https://helexia.sharepoint.com/..."></div>
                 </div>
                 <div class="border-t pt-4"><label class="block font-medium">Suivi</label><textarea name="suivi" rows="3" class="mt-1 w-full rounded-md border-gray-300 shadow-sm">${claim.suivi || ''}</textarea></div>
             </form>`;
@@ -433,12 +435,19 @@
             lucide.createIcons();
             
             const appId = typeof __app_id !== 'undefined' ? __app_id : 'helexia-sinistres-app';
-            const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
+            const firebaseConfigStr = typeof __firebase_config !== 'undefined' ? __firebase_config : null;
             const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+            
+            let firebaseConfig = null;
+            if (firebaseConfigStr && firebaseConfigStr.trim() !== '') {
+                try {
+                    firebaseConfig = JSON.parse(firebaseConfigStr);
+                } catch (e) {
+                    console.error("Config Firebase invalide.", e);
+                }
+            }
 
-            if (!firebaseConfig || !firebaseConfig.projectId) {
-                initializeOfflineMode();
-            } else {
+            if (firebaseConfig && firebaseConfig.projectId) {
                 try {
                     const app = initializeApp(firebaseConfig);
                     auth = getAuth(app);
@@ -447,9 +456,12 @@
 
                     onAuthStateChanged(auth, (user) => {
                         if (user) {
-                            console.log("Authentification réussie. Mise en place de l'écouteur Firestore.");
-                            isOnlineMode = true;
-                            setupFirestoreListener();
+                            if (!isOnlineMode) { // Pour éviter de lancer le listener plusieurs fois
+                                isOnlineMode = true;
+                                console.log("Authentification réussie. Mise en place de l'écouteur Firestore.");
+                                document.getElementById('offline-banner').classList.add('hidden');
+                                setupFirestoreListener();
+                            }
                         }
                     });
 
@@ -459,9 +471,12 @@
                         await signInAnonymously(auth);
                     }
                 } catch (error) {
-                    console.error("L'authentification Firebase a échoué. Passage en mode hors ligne.", error);
+                    console.error("L'initialisation de Firebase a échoué. Passage en mode hors ligne.", error);
                     initializeOfflineMode();
                 }
+            } else {
+                console.log("Configuration Firebase non trouvée ou invalide. Passage en mode hors ligne.");
+                initializeOfflineMode();
             }
             
             document.getElementById('addClaimBtn').onclick = addNewClaim;
