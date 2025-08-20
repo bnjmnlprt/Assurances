@@ -429,42 +429,39 @@
             });
         };
 
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             lucide.createIcons();
             
             const appId = typeof __app_id !== 'undefined' ? __app_id : 'helexia-sinistres-app';
             const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
             const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
 
-            if (!firebaseConfig) {
+            if (!firebaseConfig || !firebaseConfig.projectId) {
                 initializeOfflineMode();
             } else {
-                const app = initializeApp(firebaseConfig);
-                auth = getAuth(app);
-                db = getFirestore(app);
-                claimsCollectionRef = collection(db, `/artifacts/${appId}/public/data/sinistres`);
+                try {
+                    const app = initializeApp(firebaseConfig);
+                    auth = getAuth(app);
+                    db = getFirestore(app);
+                    claimsCollectionRef = collection(db, `/artifacts/${appId}/public/data/sinistres`);
 
-                onAuthStateChanged(auth, (user) => {
-                    if (user) {
-                        console.log("Authentification réussie. Mise en place de l'écouteur Firestore.");
-                        isOnlineMode = true;
-                        setupFirestoreListener();
-                    }
-                });
-
-                const authenticate = async () => {
-                    try {
-                        if (initialAuthToken) {
-                            await signInWithCustomToken(auth, initialAuthToken);
-                        } else {
-                            await signInAnonymously(auth);
+                    onAuthStateChanged(auth, (user) => {
+                        if (user) {
+                            console.log("Authentification réussie. Mise en place de l'écouteur Firestore.");
+                            isOnlineMode = true;
+                            setupFirestoreListener();
                         }
-                    } catch (error) {
-                        console.error("L'authentification Firebase a échoué. Passage en mode hors ligne.", error);
-                        initializeOfflineMode();
+                    });
+
+                    if (initialAuthToken) {
+                        await signInWithCustomToken(auth, initialAuthToken);
+                    } else {
+                        await signInAnonymously(auth);
                     }
-                };
-                authenticate();
+                } catch (error) {
+                    console.error("L'authentification Firebase a échoué. Passage en mode hors ligne.", error);
+                    initializeOfflineMode();
+                }
             }
             
             document.getElementById('addClaimBtn').onclick = addNewClaim;
